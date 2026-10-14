@@ -1,5 +1,5 @@
-﻿// Netz zuerst (damit neue Karten sofort ankommen), offline aus dem Cache
-const CACHE = "vokabeln-v3";
+// Netz zuerst (damit neue Karten sofort ankommen), offline aus dem Cache
+const CACHE = "vokabeln-v4";
 const FILES = ["./", "index.html", "manifest.json", "karten.json", "icon-180.png", "icon-512.png"];
 
 self.addEventListener("install", e => {

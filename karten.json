@@ -1,515 +1,1031 @@
 {
- "exported": 1791987765.981961,
+ "exported": 1791988162.5646093,
  "cards": [
+  {
+   "id": 171,
+   "front": "I live in ...",
+   "back": "Eu moro em ...",
+   "deck": "Verbs"
+  },
+  {
+   "id": 170,
+   "front": "I speak",
+   "back": "Eu falo",
+   "deck": "Verbs"
+  },
+  {
+   "id": 169,
+   "front": "I'm going",
+   "back": "Eu vou",
+   "deck": "Verbs"
+  },
+  {
+   "id": 168,
+   "front": "I like ...",
+   "back": "Eu gosto de ...",
+   "deck": "Verbs"
+  },
+  {
+   "id": 167,
+   "front": "I need ...",
+   "back": "Eu preciso de ...",
+   "deck": "Verbs"
+  },
+  {
+   "id": 166,
+   "front": "I would like",
+   "back": "Eu queria",
+   "deck": "Verbs"
+  },
+  {
+   "id": 165,
+   "front": "I want",
+   "back": "Eu quero",
+   "deck": "Verbs"
+  },
+  {
+   "id": 164,
+   "front": "I am (how/where I am)",
+   "back": "Eu estou",
+   "deck": "Verbs"
+  },
+  {
+   "id": 163,
+   "front": "I am (who/what I am)",
+   "back": "Eu sou",
+   "deck": "Verbs"
+  },
+  {
+   "id": 162,
+   "front": "expensive",
+   "back": "caro",
+   "deck": "Shopping"
+  },
+  {
+   "id": 161,
+   "front": "cheap",
+   "back": "barato",
+   "deck": "Shopping"
+  },
+  {
+   "id": 160,
+   "front": "It's too expensive",
+   "back": "É muito caro",
+   "deck": "Shopping"
+  },
+  {
+   "id": 159,
+   "front": "Can I try it on?",
+   "back": "Posso experimentar?",
+   "deck": "Shopping"
+  },
+  {
+   "id": 158,
+   "front": "I'm just looking",
+   "back": "Só estou a ver",
+   "deck": "Shopping"
+  },
+  {
+   "id": 157,
+   "front": "Is it far?",
+   "back": "É longe?",
+   "deck": "Getting Around"
+  },
+  {
+   "id": 156,
+   "front": "far",
+   "back": "longe",
+   "deck": "Getting Around"
+  },
+  {
+   "id": 155,
+   "front": "near",
+   "back": "perto",
+   "deck": "Getting Around"
+  },
+  {
+   "id": 154,
+   "front": "straight ahead",
+   "back": "em frente",
+   "deck": "Getting Around"
+  },
+  {
+   "id": 153,
+   "front": "on the right",
+   "back": "à direita",
+   "deck": "Getting Around"
+  },
+  {
+   "id": 152,
+   "front": "on the left",
+   "back": "à esquerda",
+   "deck": "Getting Around"
+  },
+  {
+   "id": 151,
+   "front": "a return ticket",
+   "back": "um bilhete de ida e volta",
+   "deck": "Getting Around"
+  },
+  {
+   "id": 150,
+   "front": "a single ticket",
+   "back": "um bilhete de ida",
+   "deck": "Getting Around"
+  },
+  {
+   "id": 149,
+   "front": "the train station",
+   "back": "a estação de comboios",
+   "deck": "Getting Around"
+  },
+  {
+   "id": 148,
+   "front": "Where is the toilet?",
+   "back": "Onde é a casa de banho?",
+   "deck": "Getting Around"
+  },
+  {
+   "id": 147,
+   "front": "the menu",
+   "back": "a ementa",
+   "deck": "Food & Drink"
+  },
+  {
+   "id": 146,
+   "front": "dinner",
+   "back": "o jantar",
+   "deck": "Food & Drink"
+  },
+  {
+   "id": 145,
+   "front": "lunch",
+   "back": "o almoço",
+   "deck": "Food & Drink"
+  },
+  {
+   "id": 144,
+   "front": "breakfast",
+   "back": "o pequeno-almoço",
+   "deck": "Food & Drink"
+  },
+  {
+   "id": 143,
+   "front": "Cheers!",
+   "back": "Saúde!",
+   "deck": "Food & Drink"
+  },
+  {
+   "id": 142,
+   "front": "I'm vegetarian",
+   "back": "Sou vegetariano / vegetariana",
+   "deck": "Food & Drink"
+  },
+  {
+   "id": 141,
+   "front": "A table for two, please",
+   "back": "Uma mesa para dois, por favor",
+   "deck": "Food & Drink"
+  },
+  {
+   "id": 140,
+   "front": "white wine",
+   "back": "vinho branco",
+   "deck": "Food & Drink"
+  },
+  {
+   "id": 139,
+   "front": "A glass of red wine",
+   "back": "Um copo de vinho tinto",
+   "deck": "Food & Drink"
+  },
+  {
+   "id": 138,
+   "front": "A beer, please",
+   "back": "Uma cerveja, por favor",
+   "deck": "Food & Drink"
+  },
+  {
+   "id": 137,
+   "front": "What time is it?",
+   "back": "Que horas são?",
+   "deck": "Days & Time"
+  },
+  {
+   "id": 136,
+   "front": "later",
+   "back": "mais tarde",
+   "deck": "Days & Time"
+  },
+  {
+   "id": 135,
+   "front": "now",
+   "back": "agora",
+   "deck": "Days & Time"
+  },
+  {
+   "id": 134,
+   "front": "yesterday",
+   "back": "ontem",
+   "deck": "Days & Time"
+  },
+  {
+   "id": 133,
+   "front": "tomorrow",
+   "back": "amanhã",
+   "deck": "Days & Time"
+  },
+  {
+   "id": 132,
+   "front": "today",
+   "back": "hoje",
+   "deck": "Days & Time"
+  },
+  {
+   "id": 131,
+   "front": "Sunday",
+   "back": "domingo",
+   "deck": "Days & Time"
+  },
+  {
+   "id": 130,
+   "front": "Saturday",
+   "back": "sábado",
+   "deck": "Days & Time"
+  },
+  {
+   "id": 129,
+   "front": "Friday",
+   "back": "sexta-feira",
+   "deck": "Days & Time"
+  },
+  {
+   "id": 128,
+   "front": "Thursday",
+   "back": "quinta-feira",
+   "deck": "Days & Time"
+  },
+  {
+   "id": 127,
+   "front": "Wednesday",
+   "back": "quarta-feira",
+   "deck": "Days & Time"
+  },
+  {
+   "id": 126,
+   "front": "Tuesday",
+   "back": "terça-feira",
+   "deck": "Days & Time"
+  },
+  {
+   "id": 125,
+   "front": "Monday",
+   "back": "segunda-feira",
+   "deck": "Days & Time"
+  },
+  {
+   "id": 124,
+   "front": "100",
+   "back": "cem",
+   "deck": "Numbers"
+  },
+  {
+   "id": 123,
+   "front": "50",
+   "back": "cinquenta",
+   "deck": "Numbers"
+  },
+  {
+   "id": 122,
+   "front": "30",
+   "back": "trinta",
+   "deck": "Numbers"
+  },
+  {
+   "id": 121,
+   "front": "20",
+   "back": "vinte",
+   "deck": "Numbers"
+  },
+  {
+   "id": 120,
+   "front": "19",
+   "back": "dezanove",
+   "deck": "Numbers"
+  },
+  {
+   "id": 119,
+   "front": "18",
+   "back": "dezoito",
+   "deck": "Numbers"
+  },
+  {
+   "id": 118,
+   "front": "17",
+   "back": "dezassete",
+   "deck": "Numbers"
+  },
+  {
+   "id": 117,
+   "front": "16",
+   "back": "dezasseis",
+   "deck": "Numbers"
+  },
+  {
+   "id": 116,
+   "front": "15",
+   "back": "quinze",
+   "deck": "Numbers"
+  },
+  {
+   "id": 115,
+   "front": "14",
+   "back": "catorze",
+   "deck": "Numbers"
+  },
+  {
+   "id": 114,
+   "front": "13",
+   "back": "treze",
+   "deck": "Numbers"
+  },
+  {
+   "id": 113,
+   "front": "12",
+   "back": "doze",
+   "deck": "Numbers"
+  },
+  {
+   "id": 112,
+   "front": "11",
+   "back": "onze",
+   "deck": "Numbers"
+  },
+  {
+   "id": 111,
+   "front": "0",
+   "back": "zero",
+   "deck": "Numbers"
+  },
+  {
+   "id": 110,
+   "front": "Which?",
+   "back": "Qual?",
+   "deck": "Question Words"
+  },
+  {
+   "id": 109,
+   "front": "How much?",
+   "back": "Quanto?",
+   "deck": "Question Words"
+  },
+  {
+   "id": 108,
+   "front": "Who?",
+   "back": "Quem?",
+   "deck": "Question Words"
+  },
+  {
+   "id": 107,
+   "front": "How?",
+   "back": "Como?",
+   "deck": "Question Words"
+  },
+  {
+   "id": 106,
+   "front": "Why?",
+   "back": "Porquê?",
+   "deck": "Question Words"
+  },
+  {
+   "id": 105,
+   "front": "When?",
+   "back": "Quando?",
+   "deck": "Question Words"
+  },
+  {
+   "id": 104,
+   "front": "Where?",
+   "back": "Onde?",
+   "deck": "Question Words"
+  },
+  {
+   "id": 103,
+   "front": "What?",
+   "back": "O quê?",
+   "deck": "Question Words"
+  },
+  {
+   "id": 102,
+   "front": "Help!",
+   "back": "Socorro!",
+   "deck": "Basics"
+  },
+  {
+   "id": 101,
+   "front": "Okay",
+   "back": "Está bem",
+   "deck": "Basics"
+  },
+  {
+   "id": 100,
+   "front": "Of course",
+   "back": "Claro",
+   "deck": "Basics"
+  },
+  {
+   "id": 99,
+   "front": "How do you say ... in Portuguese?",
+   "back": "Como se diz ... em português?",
+   "deck": "Basics"
+  },
+  {
+   "id": 98,
+   "front": "What does ... mean?",
+   "back": "O que significa ...?",
+   "deck": "Basics"
+  },
+  {
+   "id": 97,
+   "front": "Speak more slowly, please",
+   "back": "Fale mais devagar, por favor",
+   "deck": "Basics"
+  },
+  {
+   "id": 96,
+   "front": "I don't know",
+   "back": "Não sei",
+   "deck": "Basics"
+  },
+  {
+   "id": 95,
+   "front": "I'm from Germany",
+   "back": "Sou da Alemanha",
+   "deck": "Basics"
+  },
+  {
+   "id": 94,
+   "front": "I'm from England",
+   "back": "Sou de Inglaterra",
+   "deck": "Basics"
+  },
+  {
+   "id": 93,
+   "front": "How are you? (formal)",
+   "back": "Como está?",
+   "deck": "Basics"
+  },
+  {
+   "id": 92,
+   "front": "Sorry",
+   "back": "Desculpe",
+   "deck": "Basics"
+  },
+  {
+   "id": 91,
+   "front": "Please",
+   "back": "Por favor",
+   "deck": "Basics"
+  },
+  {
+   "id": 90,
+   "front": "See you tomorrow",
+   "back": "Até amanhã",
+   "deck": "Basics"
+  },
+  {
+   "id": 89,
+   "front": "See you later",
+   "back": "Até logo",
+   "deck": "Basics"
+  },
+  {
+   "id": 88,
+   "front": "Goodbye",
+   "back": "Adeus",
+   "deck": "Basics"
+  },
+  {
+   "id": 87,
+   "front": "Good evening / Good night",
+   "back": "Boa noite",
+   "deck": "Basics"
+  },
+  {
+   "id": 86,
+   "front": "Good afternoon",
+   "back": "Boa tarde",
+   "deck": "Basics"
+  },
   {
    "id": 85,
    "front": "Hello",
    "back": "Olá",
-   "deck": "Standard"
+   "deck": "Basics"
   },
   {
    "id": 84,
    "front": "they know",
-   "back": "eles/elas/vocês sabem",
-   "deck": "Standard"
+   "back": "eles/elas sabem",
+   "deck": "Verbs"
   },
   {
    "id": 83,
    "front": "you know (plural)",
-   "back": "vós sabeis",
-   "deck": "Standard"
+   "back": "vocês sabem",
+   "deck": "Verbs"
   },
   {
    "id": 82,
    "front": "we know",
    "back": "nós sabemos",
-   "deck": "Standard"
+   "deck": "Verbs"
   },
   {
    "id": 81,
-   "front": "he/she/it knows",
+   "front": "he/she knows, you (formal) know",
    "back": "ele/ela/você sabe",
-   "deck": "Standard"
+   "deck": "Verbs"
   },
   {
    "id": 80,
    "front": "you know",
    "back": "tu sabes",
-   "deck": "Standard"
+   "deck": "Verbs"
   },
   {
    "id": 79,
    "front": "they can",
-   "back": "Eles/Elas/Vocês podem",
-   "deck": "Standard"
+   "back": "eles/elas podem",
+   "deck": "Verbs"
   },
   {
    "id": 78,
    "front": "you can (plural)",
-   "back": "Você podes",
-   "deck": "Standard"
+   "back": "vocês podem",
+   "deck": "Verbs"
   },
   {
    "id": 77,
    "front": "we can",
-   "back": "Nós podemos",
-   "deck": "Standard"
+   "back": "nós podemos",
+   "deck": "Verbs"
   },
   {
    "id": 76,
-   "front": "he/she/it can",
-   "back": "Ele/Ela/Você pode",
-   "deck": "Standard"
+   "front": "he/she can, you (formal) can",
+   "back": "ele/ela/você pode",
+   "deck": "Verbs"
   },
   {
    "id": 75,
    "front": "you can",
-   "back": "Tu podes",
-   "deck": "Standard"
+   "back": "tu podes",
+   "deck": "Verbs"
   },
   {
    "id": 74,
    "front": "they have",
-   "back": "eles/elas/vocês têm",
-   "deck": "Standard"
+   "back": "eles/elas têm",
+   "deck": "Verbs"
   },
   {
    "id": 73,
    "front": "you have (plural)",
-   "back": "você tem",
-   "deck": "Standard"
+   "back": "vocês têm",
+   "deck": "Verbs"
   },
   {
    "id": 72,
    "front": "we have",
    "back": "nós temos",
-   "deck": "Standard"
+   "deck": "Verbs"
   },
   {
    "id": 71,
-   "front": "he/she/it has",
+   "front": "he/she has, you (formal) have",
    "back": "ele/ela/você tem",
-   "deck": "Standard"
+   "deck": "Verbs"
   },
   {
    "id": 70,
    "front": "you have",
    "back": "tu tens",
-   "deck": "Standard"
+   "deck": "Verbs"
   },
   {
    "id": 69,
    "front": "Let's go!",
    "back": "Vamos lá!",
-   "deck": "Standard"
+   "deck": "Going Out"
   },
   {
    "id": 68,
    "front": "Can it be at 8 pm?",
    "back": "Pode ser às 8 da noite?",
-   "deck": "Standard"
+   "deck": "Going Out"
   },
   {
    "id": 67,
    "front": "Where are we going?",
    "back": "Onde vamos?",
-   "deck": "Standard"
+   "deck": "Going Out"
   },
   {
    "id": 66,
    "front": "What time should I meet you?",
-   "back": "A que horas te encontro",
-   "deck": "Standard"
+   "back": "A que horas te encontro?",
+   "deck": "Going Out"
   },
   {
    "id": 65,
    "front": "Shall we go out tomorrow?",
    "back": "Vamos sair amanhã?",
-   "deck": "Standard"
+   "deck": "Going Out"
   },
   {
    "id": 64,
    "front": "Do you have it one size smaller?",
-   "back": "Tem tamanho menor?",
-   "deck": "Standard"
+   "back": "Tem um tamanho menor?",
+   "deck": "Shopping"
   },
   {
    "id": 63,
    "front": "Do you have it one size bigger?",
-   "back": "Tem tamanho maior?",
-   "deck": "Standard"
+   "back": "Tem um tamanho maior?",
+   "deck": "Shopping"
   },
   {
    "id": 62,
-   "front": "Where can I find []?",
-   "back": "Onde posso encontrar []?",
-   "deck": "Standard"
+   "front": "Where can I find ...?",
+   "back": "Onde posso encontrar ...?",
+   "deck": "Shopping"
   },
   {
    "id": 61,
    "front": "I'd like to buy this",
    "back": "Eu quero comprar isto",
-   "deck": "Standard"
+   "deck": "Shopping"
   },
   {
    "id": 60,
    "front": "Can I pay by card?",
    "back": "Posso pagar com cartão?",
-   "deck": "Standard"
+   "deck": "Shopping"
   },
   {
    "id": 59,
    "front": "Do you have anything cheaper?",
-   "back": "Tem mais barato?",
-   "deck": "Standard"
+   "back": "Tem algo mais barato?",
+   "deck": "Shopping"
   },
   {
    "id": 58,
    "front": "Is it closed?",
    "back": "Está fechado?",
-   "deck": "Standard"
+   "deck": "Getting Around"
   },
   {
    "id": 57,
    "front": "Is it open?",
    "back": "Está aberto?",
-   "deck": "Standard"
+   "deck": "Getting Around"
   },
   {
    "id": 56,
    "front": "How long does it take?",
    "back": "Quanto tempo demora?",
-   "deck": "Standard"
+   "deck": "Getting Around"
   },
   {
    "id": 55,
    "front": "Where can I buy tickets?",
    "back": "Onde posso comprar bilhetes?",
-   "deck": "Standard"
+   "deck": "Getting Around"
   },
   {
    "id": 54,
    "front": "Does this bus go to the airport?",
    "back": "Este autocarro vai para o aeroporto?",
-   "deck": "Standard"
+   "deck": "Getting Around"
   },
   {
    "id": 53,
    "front": "What time does the train leave?",
    "back": "A que horas parte o comboio?",
-   "deck": "Standard"
+   "deck": "Getting Around"
   },
   {
    "id": 52,
    "front": "I'd like a ticket to Lisbon",
    "back": "Quero um bilhete para Lisboa",
-   "deck": "Standard"
+   "deck": "Getting Around"
   },
   {
    "id": 51,
    "front": "How much is the ticket?",
    "back": "Quanto custa o bilhete?",
-   "deck": "Standard"
+   "deck": "Getting Around"
   },
   {
    "id": 50,
    "front": "Which bus goes to ...?",
-   "back": "Que autocarro vai para...?",
-   "deck": "Standard"
+   "back": "Que autocarro vai para ...?",
+   "deck": "Getting Around"
   },
   {
    "id": 49,
    "front": "Where is the bus stop?",
    "back": "Onde está a paragem de autocarro?",
-   "deck": "Standard"
+   "deck": "Getting Around"
   },
   {
    "id": 48,
    "front": "Can you help me?",
-   "back": "Pode ajudar - me?",
-   "deck": "Standard"
+   "back": "Pode ajudar-me?",
+   "deck": "Getting Around"
   },
   {
    "id": 47,
    "front": "To the right or to the left?",
    "back": "À direita ou à esquerda?",
-   "deck": "Standard"
+   "deck": "Getting Around"
   },
   {
    "id": 46,
    "front": "Where is ... ?",
    "back": "Onde fica ... ?",
-   "deck": "Standard"
+   "deck": "Getting Around"
   },
   {
    "id": 45,
    "front": "It's delicious",
    "back": "Está delicioso!",
-   "deck": "Standard"
+   "deck": "Food & Drink"
   },
   {
    "id": 44,
    "front": "Would you like anything else?",
    "back": "Mais alguma coisa?",
-   "deck": "Standard"
+   "deck": "Food & Drink"
   },
   {
    "id": 43,
    "front": "The bill, please",
    "back": "A conta, por favor",
-   "deck": "Standard"
+   "deck": "Food & Drink"
   },
   {
    "id": 42,
    "front": "I'd like to pay",
    "back": "Quero pagar",
-   "deck": "Standard"
+   "deck": "Food & Drink"
   },
   {
    "id": 41,
    "front": "How much does this cost?",
-   "back": "Quant(o) cust(a) isto?",
-   "deck": "Standard"
+   "back": "Quanto custa isto?",
+   "deck": "Shopping"
   },
   {
    "id": 40,
    "front": "I'll have a water, please",
    "back": "Quero água, por favor",
-   "deck": "Standard"
+   "deck": "Food & Drink"
   },
   {
    "id": 39,
    "front": "A bread roll, please",
    "back": "Um pão, por favor",
-   "deck": "Standard"
+   "deck": "Food & Drink"
   },
   {
    "id": 38,
    "front": "What is this?",
    "back": "O que é isto?",
-   "deck": "Standard"
+   "deck": "Food & Drink"
   },
   {
    "id": 37,
    "front": "Can I see the menu?",
    "back": "Posso ver o menu?",
-   "deck": "Standard"
+   "deck": "Food & Drink"
   },
   {
    "id": 36,
    "front": "I'd like this, please",
    "back": "Quero isto, por favor",
-   "deck": "Standard"
+   "deck": "Food & Drink"
   },
   {
    "id": 35,
    "front": "10",
-   "back": "de(z)sch",
-   "deck": "Standard"
+   "back": "dez",
+   "deck": "Numbers"
   },
   {
    "id": 34,
    "front": "9",
-   "back": "nov(e)",
-   "deck": "Standard"
+   "back": "nove",
+   "deck": "Numbers"
   },
   {
    "id": 33,
    "front": "8",
-   "back": "oit(o)",
-   "deck": "Standard"
+   "back": "oito",
+   "deck": "Numbers"
   },
   {
    "id": 32,
    "front": "7",
    "back": "sete",
-   "deck": "Standard"
+   "deck": "Numbers"
   },
   {
    "id": 31,
    "front": "6",
    "back": "seis",
-   "deck": "Standard"
+   "deck": "Numbers"
   },
   {
    "id": 30,
    "front": "5",
    "back": "cinco",
-   "deck": "Standard"
+   "deck": "Numbers"
   },
   {
    "id": 29,
    "front": "4",
    "back": "quatro",
-   "deck": "Standard"
+   "deck": "Numbers"
   },
   {
    "id": 28,
    "front": "3",
    "back": "três",
-   "deck": "Standard"
+   "deck": "Numbers"
   },
   {
    "id": 27,
    "front": "2",
    "back": "dois",
-   "deck": "Standard"
+   "deck": "Numbers"
   },
   {
    "id": 26,
    "front": "1",
    "back": "um",
-   "deck": "Standard"
+   "deck": "Numbers"
   },
   {
    "id": 25,
    "front": "I don't speak Portuguese",
    "back": "Não falo português",
-   "deck": "Standard"
+   "deck": "Basics"
   },
   {
    "id": 24,
    "front": "Do you speak English?",
    "back": "Fala inglês?",
-   "deck": "Standard"
+   "deck": "Basics"
   },
   {
    "id": 23,
    "front": "Can you repeat that, please?",
    "back": "Pode repetir, por favor?",
-   "deck": "Standard"
+   "deck": "Basics"
   },
   {
    "id": 22,
    "front": "I don't understand",
    "back": "Não percebo",
-   "deck": "Standard"
+   "deck": "Basics"
   },
   {
    "id": 21,
-   "front": "I'm fine - and you?",
-   "back": "Tudo bem. E tu?",
-   "deck": "Standard"
+   "front": "I'm fine, and you?",
+   "back": "Estou bem, e tu?",
+   "deck": "Basics"
   },
   {
    "id": 20,
    "front": "Maybe",
    "back": "Talvez",
-   "deck": "Standard"
+   "deck": "Basics"
   },
   {
    "id": 19,
    "front": "No",
    "back": "Não",
-   "deck": "Standard"
+   "deck": "Basics"
   },
   {
    "id": 18,
    "front": "Yes",
    "back": "Sim",
-   "deck": "Standard"
+   "deck": "Basics"
   },
   {
    "id": 17,
    "front": "Where are you from?",
    "back": "De onde és?",
-   "deck": "Standard"
+   "deck": "Basics"
   },
   {
    "id": 16,
    "front": "Nice to meet you",
-   "back": "Prazer em conhecer- te",
-   "deck": "Standard"
+   "back": "Prazer em conhecer-te",
+   "deck": "Basics"
   },
   {
    "id": 15,
    "front": "My name is ...",
-   "back": "Chamo - me",
-   "deck": "Standard"
+   "back": "Chamo-me ...",
+   "deck": "Basics"
   },
   {
    "id": 14,
    "front": "What's your name?",
    "back": "Como te chamas?",
-   "deck": "Standard"
+   "deck": "Basics"
   },
   {
    "id": 13,
    "front": "Excuse me",
    "back": "Com licença",
-   "deck": "Standard"
+   "deck": "Basics"
   },
   {
    "id": 12,
    "front": "I know",
-   "back": "eu sei",
-   "deck": "Standard"
+   "back": "Eu sei",
+   "deck": "Verbs"
   },
   {
    "id": 11,
    "front": "I have",
    "back": "Eu tenho",
-   "deck": "Standard"
+   "deck": "Verbs"
   },
   {
    "id": 10,
    "front": "May I?",
    "back": "Posso?",
-   "deck": "Standard"
+   "deck": "Basics"
   },
   {
    "id": 9,
-   "front": "I can",
+   "front": "I can (I'm able to)",
    "back": "Eu consigo",
-   "deck": "Standard"
+   "deck": "Verbs"
   },
   {
    "id": 8,
    "front": "Can I help you?",
    "back": "Posso ajudar?",
-   "deck": "Standard"
+   "deck": "Basics"
   },
   {
    "id": 7,
    "front": "A coffee with milk, please",
    "back": "Um café com leite, por favor",
-   "deck": "Standard"
+   "deck": "Food & Drink"
   },
   {
    "id": 6,
-   "front": "Can I use your bathroom?",
-   "back": "Posso usar a casa de banho deles?",
-   "deck": "Standard"
+   "front": "Can I use the bathroom?",
+   "back": "Posso usar a casa de banho?",
+   "deck": "Getting Around"
   },
   {
    "id": 5,
    "front": "How are you?",
    "back": "Tudo bem?",
-   "deck": "Standard"
+   "deck": "Basics"
   },
   {
    "id": 4,
    "front": "Have a nice day",
-   "back": "Tenham um bom dia",
-   "deck": "Standard"
+   "back": "Tenha um bom dia",
+   "deck": "Basics"
   },
   {
    "id": 3,
    "front": "You're welcome",
    "back": "De nada",
-   "deck": "Standard"
+   "deck": "Basics"
   },
   {
    "id": 2,
    "front": "Good morning",
    "back": "Bom dia",
-   "deck": "Standard"
+   "deck": "Basics"
   },
   {
    "id": 1,
    "front": "Thank you",
-   "back": "Obrigado",
-   "deck": "Standard"
+   "back": "Obrigado / Obrigada",
+   "deck": "Basics"
   }
  ]
 }

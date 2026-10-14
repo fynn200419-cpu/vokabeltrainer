@@ -46,9 +46,9 @@
   .word { font: 30px/1.25 Georgia, serif; text-align: center; overflow-wrap: anywhere; }
   .speak { display: flex; gap: 8px; }
   .speak[hidden] { display: none; }
-  input[type=text] { width: 100%; font-size: 20px; text-align: center; color: var(--ink);
+  input[type=text], input[type=search] { width: 100%; -webkit-appearance: none; font-size: 20px; text-align: center; color: var(--ink);
     background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 12px; outline: none; }
-  input[type=text]:focus { border-color: var(--acc); }
+  input[type=text]:focus, input[type=search]:focus { border-color: var(--acc); }
   input[hidden] { display: none; }
   .verdict { text-align: center; font-size: 17px; min-height: 1.4em; }
   .btns { display: flex; gap: 10px; width: 100%; }
@@ -63,6 +63,26 @@
   .opt input { width: 22px; height: 22px; accent-color: var(--acc); }
   .stack { display: flex; flex-direction: column; gap: 8px; }
   .note { color: var(--muted); font-size: 13px; margin-top: 12px; }
+  .tabs { display: flex; gap: 4px; background: var(--surf); border: 1px solid var(--line);
+    border-radius: 12px; padding: 4px; margin-bottom: 12px; }
+  .tabs button { flex: 1; border: 0; padding: 8px; background: none; color: var(--muted); }
+  .tabs button.on { background: var(--bg); color: var(--ink); font-weight: 600; }
+  .view { flex: 1; display: flex; flex-direction: column; }
+  .view[hidden] { display: none; }
+  input.field { text-align: left; font-size: 17px; margin-bottom: 10px; }
+  .tools { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .tools button { padding: 9px 12px; font-size: 15px; }
+  .tools[hidden], .editbar[hidden] { display: none; }
+  .list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 12px;
+    background: var(--surf); }
+  .list li { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-top: 1px solid var(--line); }
+  .list li:first-child { border-top: 0; }
+  .list .txt { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  .list .en { color: var(--muted); font-size: 14px; }
+  .list .pt { color: var(--ink); font-size: 17px; }
+  .list input[type=checkbox] { width: 22px; height: 22px; accent-color: var(--acc); flex: none; margin: 0; }
+  .list .icon { padding: 6px 10px; font-size: 16px; flex: none; }
+  .empty { color: var(--muted); padding: 16px; text-align: center; }
 </style>
 </head>
 <body>
@@ -71,8 +91,14 @@
   <button class="icon" id="menuBtn" aria-label="Settings">⚙︎</button>
 </header>
 
+<nav class="tabs">
+  <button id="tabLearn" class="on">Learn</button>
+  <button id="tabCards">Cards</button>
+</nav>
+
+<section class="view" id="learnView">
 <div class="bar">
-  <select id="deck"></select>
+  <select id="deck" aria-label="Deck to practise"></select>
   <div class="count" id="count"></div>
 </div>
 
@@ -87,6 +113,21 @@
   <div class="verdict" id="verdict"></div>
   <div class="btns" id="btns"></div>
 </main>
+</section>
+
+<section class="view" id="cardsView" hidden>
+  <div class="bar">
+    <select id="browseDeck" aria-label="Deck to show"></select>
+    <div class="count" id="browseCount"></div>
+  </div>
+  <input type="search" class="field" id="search" placeholder="Search" autocomplete="off"
+         autocorrect="off" autocapitalize="off" spellcheck="false">
+  <div class="editbar" id="editbar" hidden>
+    <input type="text" class="field" id="deckName" placeholder="Name of your deck" autocomplete="off">
+  </div>
+  <div class="tools" id="tools"></div>
+  <ul class="list" id="list"></ul>
+</section>
 
 <dialog id="menu">
   <h2>Settings</h2>
@@ -112,8 +153,9 @@
 const DAY = 86400;
 const INTERVALS = [1, 2, 4, 8, 16, 32, 64];
 const MIN_NEW = 30, MAX_NEW = 50, RANDOM_SIZE = 50;
-const ALL = "All decks", PROBLEM = "Problem cards";
-const PKEY = "vt-progress", SKEY = "vt-settings";
+// Stapel-Werte: "all", "problem", "d:<Stapel aus der Datenbank>", "m:<eigener Stapel>"
+const ALL = "all", PROBLEM = "problem";
+const PKEY = "vt-progress", SKEY = "vt-settings", DKEY = "vt-decks";
 const FIELDS = ["due", "box", "lapses", "reps", "streak"];
 const $ = id => document.getElementById(id);
 
@@ -127,6 +169,7 @@ function store(key, val) {
 
 let cards = [], byId = new Map(), exportedAt = null;
 let progress = load(PKEY, {});
+let myDecks = load(DKEY, {});   // eigene Stapel: { Name: [Karten-IDs] }, nur auf diesem Gerät
 const settings = Object.assign({ reverse: false, noType: false, auto: false, deck: ALL }, load(SKEY, {}));
 let queue = [], relearn = new Set(), state = "empty", card = null, suggest = false;
 const sess = { ok: 0, no: 0 };
@@ -165,11 +208,23 @@ const now = () => Date.now() / 1000;
 const score = (c, t = now()) => (t - c.due) / DAY + 2 * Math.min(c.lapses, 5);
 const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
+function cardsIn(deck) {
+  if (deck === PROBLEM) return cards.filter(c => c.lapses >= 2 && c.streak < 3);
+  if (deck.startsWith("d:")) return cards.filter(c => c.deck === deck.slice(2));
+  if (deck.startsWith("m:")) return (myDecks[deck.slice(2)] || []).map(id => byId.get(id)).filter(Boolean);
+  return cards;
+}
+
+function validDeck(deck) {
+  return deck === ALL || deck === PROBLEM ||
+    (deck.startsWith("d:") && cards.some(c => c.deck === deck.slice(2))) ||
+    (deck.startsWith("m:") && deck.slice(2) in myDecks);
+}
+
 function buildQueue(deck) {
   if (deck === PROBLEM)
-    return cards.filter(c => c.lapses >= 2 && c.streak < 3)
-      .sort((a, b) => b.lapses - a.lapses || a.streak - b.streak);
-  const pool = deck === ALL ? cards : cards.filter(c => c.deck === deck);
+    return cardsIn(PROBLEM).sort((a, b) => b.lapses - a.lapses || a.streak - b.streak);
+  const pool = cardsIn(deck);
   const t = now();
   const due = pool.filter(c => c.reps > 0 && c.due <= t).sort((a, b) => score(b, t) - score(a, t));
   const limit = MIN_NEW + Math.floor(Math.random() * (MAX_NEW - MIN_NEW + 1));
@@ -235,14 +290,30 @@ function updateCount() {
   $("count").textContent = `${queue.length} left · ✓ ${sess.ok} · ✗ ${sess.no}`;
 }
 
-function refreshDecks() {
-  const decks = [ALL, PROBLEM, ...new Set(cards.map(c => c.deck).sort())];
-  if (!decks.includes(settings.deck)) settings.deck = ALL;
-  $("deck").replaceChildren(...decks.map(d => new Option(d, d, false, d === settings.deck)));
+function fillDeckSelect(sel, value) {
+  const opt = (v, text) => new Option(text, v, false, v === value);
+  const group = (label, opts) => {
+    const g = document.createElement("optgroup");
+    g.label = label;
+    g.append(...opts);
+    return g;
+  };
+  const builtIn = [...new Set(cards.map(c => c.deck))].sort();
+  const mine = Object.keys(myDecks).sort((a, b) => a.localeCompare(b));
+  const items = [opt(ALL, `All cards (${cards.length})`), opt(PROBLEM, "Problem cards"),
+    group("Decks", builtIn.map(d => opt("d:" + d, `${d} (${cardsIn("d:" + d).length})`)))];
+  if (mine.length) items.push(group("My decks", mine.map(d => opt("m:" + d, `${d} (${cardsIn("m:" + d).length})`))));
+  sel.replaceChildren(...items);
 }
 
-function startSession(randomAll = false) {
-  const list = randomAll ? shuffle([...cards]).slice(0, RANDOM_SIZE) : buildQueue(settings.deck);
+function refreshDecks() {
+  if (!validDeck(settings.deck)) settings.deck = ALL;
+  fillDeckSelect($("deck"), settings.deck);
+}
+
+function startSession(random = false) {
+  const pool = random === "deck" ? cardsIn(settings.deck) : cards;
+  const list = random ? shuffle([...pool]).slice(0, RANDOM_SIZE) : buildQueue(settings.deck);
   queue = list.map(c => c.id);
   relearn.clear();
   sess.ok = sess.no = 0;
@@ -259,7 +330,7 @@ function nextCard() {
     word.textContent = cards.length ? "All done for today." : "No cards yet.";
     ent.hidden = true;
     $("speak").hidden = true;
-    setButtons(cards.length ? [["Keep practising (50 random)", () => startSession(true)]] : []);
+    setButtons(cards.length ? [["Keep practising this deck", () => startSession("deck")]] : []);
     return;
   }
   card = byId.get(queue[0]);
@@ -321,14 +392,149 @@ ent.addEventListener("keydown", e => {
   if (e.key === "Enter" && state === "ask") { e.preventDefault(); check(); }
 });
 document.addEventListener("keydown", e => {
-  if (state !== "revealed" || e.target === ent || $("menu").open) return;
+  if (view !== "learn" || state !== "revealed" || e.target === ent || $("menu").open) return;
   if (e.key === "Enter") rate(suggest);
-  else if (e.key.toLowerCase() === "j") rate(true);
+  else if (e.key.toLowerCase() === "y") rate(true);
   else if (e.key.toLowerCase() === "n") rate(false);
 });
 $("say").addEventListener("click", () => speak(portuguese()));
 $("saySlow").addEventListener("click", () => speak(portuguese(), true));
 $("deck").addEventListener("change", e => { settings.deck = e.target.value; store(SKEY, settings); startSession(); });
+
+// ---------- Ansichten: Lernen / Karten ----------
+let view = "learn", learnDirty = false;
+
+function showView(v) {
+  view = v;
+  $("learnView").hidden = v !== "learn";
+  $("cardsView").hidden = v !== "cards";
+  $("tabLearn").classList.toggle("on", v === "learn");
+  $("tabCards").classList.toggle("on", v === "cards");
+  if (v === "cards") return renderBrowse();
+  const before = settings.deck;
+  refreshDecks();
+  if (learnDirty || settings.deck !== before || state === "done" || state === "empty") startSession();
+  learnDirty = false;
+}
+$("tabLearn").addEventListener("click", () => showView("learn"));
+$("tabCards").addEventListener("click", () => showView("cards"));
+
+// ---------- Karten ansehen & eigene Stapel ----------
+let browse = ALL, editing = null;   // editing: { orig: alter Name oder null, sel: Set von IDs }
+
+function button(text, fn, kind) {
+  const b = document.createElement("button");
+  b.textContent = text;
+  if (kind) b.className = kind;
+  b.addEventListener("click", fn);
+  return b;
+}
+
+function renderTools() {
+  $("browseCount").textContent = editing ? `${editing.sel.size} selected` : `${cardsIn(browse).length} cards`;
+  const tools = [];
+  if (editing) {
+    tools.push(button(`Save deck (${editing.sel.size})`, saveDeck, "primary"), button("Cancel", cancelEdit));
+  } else {
+    tools.push(button("+ New deck", () => startEdit(null)));
+    if (browse.startsWith("m:"))
+      tools.push(button("Edit deck", () => startEdit(browse.slice(2))), button("Delete deck", deleteDeck));
+    if (browse !== ALL)
+      tools.push(button("Practise this deck", () => {
+        settings.deck = browse;
+        store(SKEY, settings);
+        learnDirty = true;
+        showView("learn");
+      }));
+  }
+  $("tools").replaceChildren(...tools);
+}
+
+function renderBrowse() {
+  if (!validDeck(browse)) browse = ALL;
+  fillDeckSelect($("browseDeck"), browse);
+  $("editbar").hidden = !editing;
+  renderTools();
+  const q = loose($("search").value);
+  const shown = cardsIn(browse).filter(c => !q || loose(c.front).includes(q) || loose(c.back).includes(q))
+    .sort((a, b) => a.deck.localeCompare(b.deck) || a.id - b.id);
+  if (!shown.length) {
+    const li = document.createElement("li");
+    li.className = "empty";
+    li.textContent = "No cards found.";
+    return $("list").replaceChildren(li);
+  }
+  $("list").replaceChildren(...shown.map(c => {
+    const li = document.createElement("li");
+    if (editing) {
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = editing.sel.has(c.id);
+      cb.setAttribute("aria-label", c.front);
+      cb.addEventListener("change", () => {
+        cb.checked ? editing.sel.add(c.id) : editing.sel.delete(c.id);
+        renderTools();
+      });
+      li.append(cb);
+      li.addEventListener("click", e => { if (e.target === li || e.target.closest(".txt")) cb.click(); });
+    }
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    const pt = Object.assign(document.createElement("div"), { className: "pt", textContent: c.back });
+    const en = Object.assign(document.createElement("div"), { className: "en", textContent: c.front });
+    txt.append(pt, en);
+    const say = button("🔊", () => speak(c.back), "icon");
+    say.setAttribute("aria-label", "Read aloud");
+    li.append(txt, say);
+    return li;
+  }));
+}
+
+function startEdit(name) {
+  editing = { orig: name, sel: new Set(name ? myDecks[name] : []) };
+  $("deckName").value = name || "";
+  browse = ALL;   // beim Zusammenstellen alle Karten zeigen; über die Auswahl oben filterbar
+  renderBrowse();
+  if (!name) $("deckName").focus();
+}
+
+function cancelEdit() {
+  const name = editing.orig;
+  editing = null;
+  if (name) browse = "m:" + name;
+  renderBrowse();
+}
+
+function saveDeck() {
+  const name = $("deckName").value.trim();
+  if (!name) return alert("Please give your deck a name.");
+  if (!editing.sel.size) return alert("Tick at least one card.");
+  if (name !== editing.orig && name in myDecks) return alert("You already have a deck with this name.");
+  if (editing.orig && editing.orig !== name) delete myDecks[editing.orig];
+  myDecks[name] = cards.filter(c => editing.sel.has(c.id)).map(c => c.id);
+  store(DKEY, myDecks);
+  if (editing.orig && settings.deck === "m:" + editing.orig) {
+    settings.deck = "m:" + name;
+    store(SKEY, settings);
+    learnDirty = true;
+  }
+  editing = null;
+  browse = "m:" + name;
+  renderBrowse();
+}
+
+function deleteDeck() {
+  const name = browse.slice(2);
+  if (!confirm(`Delete your deck "${name}"? The cards themselves stay.`)) return;
+  delete myDecks[name];
+  store(DKEY, myDecks);
+  if (settings.deck === browse) learnDirty = true;
+  browse = ALL;
+  renderBrowse();
+}
+
+$("browseDeck").addEventListener("change", e => { browse = e.target.value; renderBrowse(); });
+$("search").addEventListener("input", renderBrowse);
 
 // ---------- Einstellungen ----------
 const menu = $("menu");
@@ -366,6 +572,7 @@ $("progFile").addEventListener("change", async e => {
     progress = JSON.parse(await f.text());
     store(PKEY, progress);
     applyProgress();
+    learnDirty = true;
     alert("Progress loaded.");
   } catch { alert("Could not read that file."); }
   e.target.value = "";
@@ -375,6 +582,7 @@ $("resetProg").addEventListener("click", () => {
   progress = {};
   store(PKEY, progress);
   applyProgress();
+  learnDirty = true;
 });
 
 // ---------- Start ----------
