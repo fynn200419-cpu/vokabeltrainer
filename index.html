@@ -1,16 +1,16 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Vokabeln">
+<meta name="apple-mobile-web-app-title" content="Vocab">
 <meta name="theme-color" content="#0e1317">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.json">
-<title>Vokabeltrainer</title>
+<title>Vocab Trainer</title>
 <style>
   :root {
     --bg: #0e1317; --surf: #161d23; --line: #26323b;
@@ -67,8 +67,8 @@
 </head>
 <body>
 <header>
-  <h1>Vokabeltrainer</h1>
-  <button class="icon" id="menuBtn" aria-label="Einstellungen">⚙︎</button>
+  <h1>Vocab Trainer</h1>
+  <button class="icon" id="menuBtn" aria-label="Settings">⚙︎</button>
 </header>
 
 <div class="bar">
@@ -77,42 +77,42 @@
 </div>
 
 <main class="card">
-  <div class="word" id="word">Lade Karten …</div>
+  <div class="word" id="word">Loading cards …</div>
   <div class="speak" id="speak" hidden>
-    <button class="icon" id="say" aria-label="Vorlesen">🔊</button>
-    <button class="icon" id="saySlow" aria-label="Langsam vorlesen">🐢</button>
+    <button class="icon" id="say" aria-label="Read aloud">🔊</button>
+    <button class="icon" id="saySlow" aria-label="Read aloud slowly">🐢</button>
   </div>
   <input type="text" id="ent" autocomplete="off" autocorrect="off" autocapitalize="off"
-         spellcheck="false" enterkeyhint="go" placeholder="Antwort">
+         spellcheck="false" enterkeyhint="go" placeholder="Answer">
   <div class="verdict" id="verdict"></div>
   <div class="btns" id="btns"></div>
 </main>
 
 <dialog id="menu">
-  <h2>Einstellungen</h2>
-  <label class="opt">Rückrichtung (Portugiesisch → Deutsch)<input type="checkbox" id="optReverse"></label>
-  <label class="opt">Ohne Tippen (nur aufdecken)<input type="checkbox" id="optNoType"></label>
-  <label class="opt">Portugiesisch automatisch vorlesen<input type="checkbox" id="optAuto"></label>
-  <h3>Abfrage</h3>
+  <h2>Settings</h2>
+  <label class="opt">Reverse (Portuguese → English)<input type="checkbox" id="optReverse"></label>
+  <label class="opt">No typing (just reveal)<input type="checkbox" id="optNoType"></label>
+  <label class="opt">Read Portuguese aloud automatically<input type="checkbox" id="optAuto"></label>
+  <h3>Practice</h3>
   <div class="stack">
-    <button id="randomBtn">Neue Auswahl (50, alle Stapel)</button>
+    <button id="randomBtn">New selection (50, all decks)</button>
   </div>
-  <h3>Lernstand auf diesem iPhone</h3>
+  <h3>Progress on this device</h3>
   <div class="stack">
-    <button id="saveProg">Fortschritt sichern</button>
-    <button id="loadProg">Fortschritt laden</button>
-    <button id="resetProg">Fortschritt zurücksetzen</button>
+    <button id="saveProg">Save progress</button>
+    <button id="loadProg">Load progress</button>
+    <button id="resetProg">Reset progress</button>
     <input type="file" id="progFile" accept="application/json,.json" hidden>
   </div>
   <div class="note" id="info"></div>
-  <div class="stack" style="margin-top:16px"><button class="primary" id="closeMenu">Fertig</button></div>
+  <div class="stack" style="margin-top:16px"><button class="primary" id="closeMenu">Done</button></div>
 </dialog>
 
 <script>
 const DAY = 86400;
 const INTERVALS = [1, 2, 4, 8, 16, 32, 64];
 const MIN_NEW = 30, MAX_NEW = 50, RANDOM_SIZE = 50;
-const ALL = "Alle Stapel", PROBLEM = "Problemkarten";
+const ALL = "All decks", PROBLEM = "Problem cards";
 const PKEY = "vt-progress", SKEY = "vt-settings";
 const FIELDS = ["due", "box", "lapses", "reps", "streak"];
 const $ = id => document.getElementById(id);
@@ -136,7 +136,8 @@ const norm = s => s.toLocaleLowerCase("pt").trim().replace(/\s+/g, " ");
 // Lockerer Vergleich: ohne Akzente, Klammern, Satzzeichen und Leerzeichen um Bindestriche
 const loose = s => norm(s).normalize("NFD").replace(/[̀-ͯ]/g, "")
   .replace(/[()\[\]?!.,¿¡…]/g, "").replace(/\s*-\s*/g, "-").replace(/\s+/g, " ").trim();
-const alternatives = a => [a.trim(), ...a.split(/[;/|,]/).map(p => p.trim()).filter(Boolean)];
+const alternatives = a => [a.trim(), a.replace(/\s+\([^)]*\)/g, "").trim(),
+  ...a.split(/[;/|,]/).map(p => p.trim()).filter(Boolean)];
 
 function similarity(a, b) {
   if (!a.length && !b.length) return 1;
@@ -231,7 +232,7 @@ function setButtons(items) {
 }
 
 function updateCount() {
-  $("count").textContent = `${queue.length} offen · ✓ ${sess.ok} · ✗ ${sess.no}`;
+  $("count").textContent = `${queue.length} left · ✓ ${sess.ok} · ✗ ${sess.no}`;
 }
 
 function refreshDecks() {
@@ -255,10 +256,10 @@ function nextCard() {
   if (!queue.length) {
     card = null;
     state = cards.length ? "done" : "empty";
-    word.textContent = cards.length ? "Für heute ist alles erledigt." : "Noch keine Karten.";
+    word.textContent = cards.length ? "All done for today." : "No cards yet.";
     ent.hidden = true;
     $("speak").hidden = true;
-    setButtons(cards.length ? [["Trotzdem weiterlernen (50 zufällig)", () => startSession(true)]] : []);
+    setButtons(cards.length ? [["Keep practising (50 random)", () => startSession(true)]] : []);
     return;
   }
   card = byId.get(queue[0]);
@@ -267,9 +268,9 @@ function nextCard() {
   $("speak").hidden = !settings.reverse;
   ent.hidden = settings.noType;
   if (settings.noType) {
-    setButtons([["Aufdecken", () => reveal("none"), "primary"]]);
+    setButtons([["Reveal", () => reveal("none"), "primary"]]);
   } else {
-    setButtons([["Prüfen", check, "primary"], ["Weiß ich nicht", () => reveal("none")]]);
+    setButtons([["Check", check, "primary"], ["Don't know", () => reveal("none")]]);
     ent.focus();
   }
   if (settings.reverse && settings.auto) speak(portuguese());
@@ -282,10 +283,10 @@ function reveal(result) {
   state = "revealed";
   suggest = result === "ok" || result === "near";
   const [text, color] = {
-    ok: [`Richtig: ${answer}`, "var(--good)"],
-    near: [`Fast richtig. Achte auf die Schreibweise: ${answer}`, "var(--warn)"],
-    wrong: [`Falsch. Richtig ist: ${answer}`, "var(--bad)"],
-    none: [settings.noType ? answer : `Lösung: ${answer}`, settings.noType ? "var(--ink)" : "var(--muted)"],
+    ok: [`Correct: ${answer}`, "var(--good)"],
+    near: [`Almost. Watch the spelling: ${answer}`, "var(--warn)"],
+    wrong: [`Wrong. Correct answer: ${answer}`, "var(--bad)"],
+    none: [settings.noType ? answer : `Answer: ${answer}`, settings.noType ? "var(--ink)" : "var(--muted)"],
   }[result];
   verdict.textContent = text;
   verdict.style.color = color;
@@ -293,8 +294,8 @@ function reveal(result) {
   if (!settings.reverse && settings.auto) speak(portuguese());
   const neutral = result === "none";
   setButtons([
-    ["Gewusst", () => rate(true), neutral ? "" : suggest ? "good" : ""],
-    ["Nicht gewusst", () => rate(false), neutral ? "" : suggest ? "" : "bad"],
+    ["I knew it", () => rate(true), neutral ? "" : suggest ? "good" : ""],
+    ["Didn't know", () => rate(false), neutral ? "" : suggest ? "" : "bad"],
   ]);
   if (!settings.noType && result !== "none") ent.blur();
 }
@@ -336,9 +337,9 @@ $("menuBtn").addEventListener("click", () => {
   $("optNoType").checked = settings.noType;
   $("optAuto").checked = settings.auto;
   const learned = Object.keys(progress).length;
-  $("info").textContent = `${cards.length} Karten` +
-    (exportedAt ? `, Stand vom Laptop: ${new Date(exportedAt * 1000).toLocaleString("de-DE")}` : "") +
-    `. Auf diesem Gerät gelernt: ${learned} Karten.`;
+  $("info").textContent = `${cards.length} cards` +
+    (exportedAt ? `, last updated: ${new Date(exportedAt * 1000).toLocaleString("en-GB")}` : "") +
+    `. Practised on this device: ${learned} cards.`;
   menu.showModal();
 });
 for (const [id, key] of [["optReverse", "reverse"], ["optNoType", "noType"], ["optAuto", "auto"]])
@@ -347,7 +348,7 @@ $("closeMenu").addEventListener("click", () => { menu.close(); startSession(); }
 $("randomBtn").addEventListener("click", () => { menu.close(); startSession(true); });
 
 $("saveProg").addEventListener("click", async () => {
-  const name = `vokabel-fortschritt-${new Date().toISOString().slice(0, 10)}.json`;
+  const name = `vocab-progress-${new Date().toISOString().slice(0, 10)}.json`;
   const file = new File([JSON.stringify(progress)], name, { type: "application/json" });
   if (navigator.canShare && navigator.canShare({ files: [file] })) {
     try { await navigator.share({ files: [file] }); } catch {}
@@ -365,12 +366,12 @@ $("progFile").addEventListener("change", async e => {
     progress = JSON.parse(await f.text());
     store(PKEY, progress);
     applyProgress();
-    alert("Fortschritt geladen.");
-  } catch { alert("Die Datei konnte nicht gelesen werden."); }
+    alert("Progress loaded.");
+  } catch { alert("Could not read that file."); }
   e.target.value = "";
 });
 $("resetProg").addEventListener("click", () => {
-  if (!confirm("Lernstand auf diesem Gerät löschen und mit dem Stand vom Laptop neu beginnen?")) return;
+  if (!confirm("Delete the progress on this device and start over?")) return;
   progress = {};
   store(PKEY, progress);
   applyProgress();
@@ -390,7 +391,7 @@ async function init() {
     raw = data.cards;
     exportedAt = data.exported;
   } catch {
-    word.textContent = "Karten konnten nicht geladen werden.";
+    word.textContent = "Could not load the cards.";
     ent.hidden = true;
     return;
   }
