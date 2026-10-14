@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Vokabeln">
+<meta name="theme-color" content="#0e1317">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>Vokabeltrainer</title>
+<style>
+  :root {
+    --bg: #0e1317; --surf: #161d23; --line: #26323b;
+    --ink: #e6edf2; --muted: #8393a0;
+    --acc: #5fc4b8; --good: #6fcf97; --bad: #e8806f; --warn: #d9b44a;
+    --dark: #0b1216;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font: 16px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    min-height: 100dvh; display: flex; flex-direction: column;
+    padding: calc(env(safe-area-inset-top) + 12px) 16px calc(env(safe-area-inset-bottom) + 16px);
+    max-width: 640px; margin: 0 auto;
+  }
+  header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  h1 { font: 22px Georgia, serif; margin: 0; }
+  button { font: inherit; color: inherit; border: 1px solid var(--line); background: var(--surf);
+    border-radius: 10px; padding: 12px 16px; cursor: pointer; }
+  button:active { filter: brightness(1.2); }
+  .primary { background: var(--acc); color: var(--dark); font-weight: 600; border-color: var(--acc); }
+  .good { background: var(--good); color: var(--dark); font-weight: 600; border-color: var(--good); }
+  .bad { background: var(--bad); color: var(--dark); font-weight: 600; border-color: var(--bad); }
+  .icon { padding: 8px 12px; font-size: 18px; line-height: 1; }
+  select { font: inherit; color: var(--ink); background: var(--surf); border: 1px solid var(--line);
+    border-radius: 10px; padding: 10px 12px; max-width: 60%; }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+  .count { color: var(--muted); font-size: 13px; text-align: right; }
+  .card { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 16px; background: var(--surf); border: 1px solid var(--line); border-radius: 16px;
+    padding: 28px 18px; min-height: 340px; }
+  .card > * { max-width: 100%; }
+  .word { font: 30px/1.25 Georgia, serif; text-align: center; overflow-wrap: anywhere; }
+  .speak { display: flex; gap: 8px; }
+  .speak[hidden] { display: none; }
+  input[type=text] { width: 100%; font-size: 20px; text-align: center; color: var(--ink);
+    background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 12px; outline: none; }
+  input[type=text]:focus { border-color: var(--acc); }
+  input[hidden] { display: none; }
+  .verdict { text-align: center; font-size: 17px; min-height: 1.4em; }
+  .btns { display: flex; gap: 10px; width: 100%; }
+  .btns button { flex: 1; }
+  dialog { background: var(--surf); color: var(--ink); border: 1px solid var(--line); border-radius: 16px;
+    width: min(92vw, 480px); padding: 20px; }
+  dialog::backdrop { background: rgba(0,0,0,.6); }
+  dialog h2 { font: 20px Georgia, serif; margin: 0 0 12px; }
+  dialog h3 { font-size: 13px; color: var(--muted); font-weight: 500; margin: 18px 0 8px; text-transform: uppercase; letter-spacing: .04em; }
+  .opt { display: flex; align-items: center; justify-content: space-between; padding: 10px 0;
+    border-bottom: 1px solid var(--line); }
+  .opt input { width: 22px; height: 22px; accent-color: var(--acc); }
+  .stack { display: flex; flex-direction: column; gap: 8px; }
+  .note { color: var(--muted); font-size: 13px; margin-top: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Vokabeltrainer</h1>
+  <button class="icon" id="menuBtn" aria-label="Einstellungen">⚙︎</button>
+</header>
+
+<div class="bar">
+  <select id="deck"></select>
+  <div class="count" id="count"></div>
+</div>
+
+<main class="card">
+  <div class="word" id="word">Lade Karten …</div>
+  <div class="speak" id="speak" hidden>
+    <button class="icon" id="say" aria-label="Vorlesen">🔊</button>
+    <button class="icon" id="saySlow" aria-label="Langsam vorlesen">🐢</button>
+  </div>
+  <input type="text" id="ent" autocomplete="off" autocorrect="off" autocapitalize="off"
+         spellcheck="false" enterkeyhint="go" placeholder="Antwort">
+  <div class="verdict" id="verdict"></div>
+  <div class="btns" id="btns"></div>
+</main>
+
+<dialog id="menu">
+  <h2>Einstellungen</h2>
+  <label class="opt">Rückrichtung (Portugiesisch → Deutsch)<input type="checkbox" id="optReverse"></label>
+  <label class="opt">Ohne Tippen (nur aufdecken)<input type="checkbox" id="optNoType"></label>
+  <label class="opt">Portugiesisch automatisch vorlesen<input type="checkbox" id="optAuto"></label>
+  <h3>Abfrage</h3>
+  <div class="stack">
+    <button id="randomBtn">Neue Auswahl (50, alle Stapel)</button>
+  </div>
+  <h3>Lernstand auf diesem iPhone</h3>
+  <div class="stack">
+    <button id="saveProg">Fortschritt sichern</button>
+    <button id="loadProg">Fortschritt laden</button>
+    <button id="resetProg">Fortschritt zurücksetzen</button>
+    <input type="file" id="progFile" accept="application/json,.json" hidden>
+  </div>
+  <div class="note" id="info"></div>
+  <div class="stack" style="margin-top:16px"><button class="primary" id="closeMenu">Fertig</button></div>
+</dialog>
+
+<script>
+const DAY = 86400;
+const INTERVALS = [1, 2, 4, 8, 16, 32, 64];
+const MIN_NEW = 30, MAX_NEW = 50, RANDOM_SIZE = 50;
+const ALL = "Alle Stapel", PROBLEM = "Problemkarten";
+const PKEY = "vt-progress", SKEY = "vt-settings";
+const FIELDS = ["due", "box", "lapses", "reps", "streak"];
+const $ = id => document.getElementById(id);
+
+// ---------- Speicher (localStorage ist in privaten Tabs evtl. gesperrt) ----------
+function load(key, fallback) {
+  try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; }
+}
+function store(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch {}
+}
+
+let cards = [], byId = new Map(), exportedAt = null;
+let progress = load(PKEY, {});
+const settings = Object.assign({ reverse: false, noType: false, auto: false, deck: ALL }, load(SKEY, {}));
+let queue = [], relearn = new Set(), state = "empty", card = null, suggest = false;
+const sess = { ok: 0, no: 0 };
+
+// ---------- Bewertung ----------
+const norm = s => s.toLocaleLowerCase("pt").trim().replace(/\s+/g, " ");
+// Lockerer Vergleich: ohne Akzente, Klammern, Satzzeichen und Leerzeichen um Bindestriche
+const loose = s => norm(s).normalize("NFD").replace(/[̀-ͯ]/g, "")
+  .replace(/[()\[\]?!.,¿¡…]/g, "").replace(/\s*-\s*/g, "-").replace(/\s+/g, " ").trim();
+const alternatives = a => [a.trim(), ...a.split(/[;/|,]/).map(p => p.trim()).filter(Boolean)];
+
+function similarity(a, b) {
+  if (!a.length && !b.length) return 1;
+  let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i];
+    for (let j = 1; j <= b.length; j++)
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    prev = cur;
+  }
+  return 1 - prev[b.length] / Math.max(a.length, b.length);
+}
+
+function judge(given, answer) {
+  if (!given.trim()) return "none";
+  const alts = alternatives(answer);
+  if (alts.map(norm).includes(norm(given))) return "ok";
+  const g = loose(given), la = alts.map(loose);
+  if (la.includes(g) || la.some(a => similarity(g, a) >= 0.85)) return "near";
+  return "wrong";
+}
+
+// ---------- Karten & Lernlogik (wie in der Desktop-App) ----------
+const now = () => Date.now() / 1000;
+const score = (c, t = now()) => (t - c.due) / DAY + 2 * Math.min(c.lapses, 5);
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+function buildQueue(deck) {
+  if (deck === PROBLEM)
+    return cards.filter(c => c.lapses >= 2 && c.streak < 3)
+      .sort((a, b) => b.lapses - a.lapses || a.streak - b.streak);
+  const pool = deck === ALL ? cards : cards.filter(c => c.deck === deck);
+  const t = now();
+  const due = pool.filter(c => c.reps > 0 && c.due <= t).sort((a, b) => score(b, t) - score(a, t));
+  const limit = MIN_NEW + Math.floor(Math.random() * (MAX_NEW - MIN_NEW + 1));
+  const fresh = shuffle(pool.filter(c => c.reps === 0)).slice(0, limit);
+  return [...due, ...fresh];
+}
+
+function answerCard(c, ok, isRelearn) {
+  const t = now();
+  if (isRelearn) {
+    if (ok) { c.due = t + INTERVALS[c.box] * DAY; c.streak++; }
+    else c.due = t + 600;
+  } else if (ok) {
+    c.due = t + INTERVALS[c.box] * DAY;
+    c.box = Math.min(c.box + 1, 6); c.streak++; c.reps++;
+  } else {
+    c.box = Math.max(0, c.box - 2); c.lapses++; c.streak = 0; c.reps++;
+    c.due = t + 600;
+  }
+  progress[c.id] = Object.fromEntries(FIELDS.map(f => [f, c[f]]));
+  store(PKEY, progress);
+}
+
+// ---------- Vorlesen (Web Speech API, europäisches Portugiesisch) ----------
+let ptVoice = null;
+function pickVoice() {
+  const voices = speechSynthesis.getVoices().filter(v => v.lang.replace("_", "-").toLowerCase() === "pt-pt");
+  ptVoice = voices.find(v => /enhanced|premium|erweitert/i.test(v.name)) || voices[0] || null;
+}
+if ("speechSynthesis" in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+
+function speak(text, slow = false) {
+  if (!("speechSynthesis" in window)) return;
+  const spoken = text.replace(/[()\[\]]/g, "").replace(/\.\.\.|…/g, " ").replace(/\s*-\s*/g, "-").replace(/\//g, ", ");
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(spoken);
+  u.lang = "pt-PT";
+  if (ptVoice) u.voice = ptVoice;
+  u.rate = slow ? 0.6 : 0.9;
+  speechSynthesis.speak(u);
+}
+const portuguese = () => card ? card.back : "";
+
+// ---------- Oberfläche ----------
+const ent = $("ent"), word = $("word"), verdict = $("verdict");
+
+function sides() {
+  return settings.reverse ? [card.back, card.front] : [card.front, card.back];
+}
+
+function setButtons(items) {
+  const box = $("btns");
+  box.replaceChildren(...items.map(([text, fn, kind]) => {
+    const b = document.createElement("button");
+    b.textContent = text;
+    if (kind) b.className = kind;
+    b.addEventListener("click", fn);
+    return b;
+  }));
+}
+
+function updateCount() {
+  $("count").textContent = `${queue.length} offen · ✓ ${sess.ok} · ✗ ${sess.no}`;
+}
+
+function refreshDecks() {
+  const decks = [ALL, PROBLEM, ...new Set(cards.map(c => c.deck).sort())];
+  if (!decks.includes(settings.deck)) settings.deck = ALL;
+  $("deck").replaceChildren(...decks.map(d => new Option(d, d, false, d === settings.deck)));
+}
+
+function startSession(randomAll = false) {
+  const list = randomAll ? shuffle([...cards]).slice(0, RANDOM_SIZE) : buildQueue(settings.deck);
+  queue = list.map(c => c.id);
+  relearn.clear();
+  sess.ok = sess.no = 0;
+  nextCard();
+}
+
+function nextCard() {
+  updateCount();
+  verdict.textContent = "";
+  ent.value = "";
+  if (!queue.length) {
+    card = null;
+    state = cards.length ? "done" : "empty";
+    word.textContent = cards.length ? "Für heute ist alles erledigt." : "Noch keine Karten.";
+    ent.hidden = true;
+    $("speak").hidden = true;
+    setButtons(cards.length ? [["Trotzdem weiterlernen (50 zufällig)", () => startSession(true)]] : []);
+    return;
+  }
+  card = byId.get(queue[0]);
+  state = "ask";
+  word.textContent = sides()[0];
+  $("speak").hidden = !settings.reverse;
+  ent.hidden = settings.noType;
+  if (settings.noType) {
+    setButtons([["Aufdecken", () => reveal("none"), "primary"]]);
+  } else {
+    setButtons([["Prüfen", check, "primary"], ["Weiß ich nicht", () => reveal("none")]]);
+    ent.focus();
+  }
+  if (settings.reverse && settings.auto) speak(portuguese());
+}
+
+function check() { reveal(judge(ent.value, sides()[1])); }
+
+function reveal(result) {
+  const answer = sides()[1];
+  state = "revealed";
+  suggest = result === "ok" || result === "near";
+  const [text, color] = {
+    ok: [`Richtig: ${answer}`, "var(--good)"],
+    near: [`Fast richtig. Achte auf die Schreibweise: ${answer}`, "var(--warn)"],
+    wrong: [`Falsch. Richtig ist: ${answer}`, "var(--bad)"],
+    none: [settings.noType ? answer : `Lösung: ${answer}`, settings.noType ? "var(--ink)" : "var(--muted)"],
+  }[result];
+  verdict.textContent = text;
+  verdict.style.color = color;
+  $("speak").hidden = false;
+  if (!settings.reverse && settings.auto) speak(portuguese());
+  const neutral = result === "none";
+  setButtons([
+    ["Gewusst", () => rate(true), neutral ? "" : suggest ? "good" : ""],
+    ["Nicht gewusst", () => rate(false), neutral ? "" : suggest ? "" : "bad"],
+  ]);
+  if (!settings.noType && result !== "none") ent.blur();
+}
+
+function rate(ok) {
+  if (state !== "revealed" || !card) return;
+  const id = card.id, wasRelearn = relearn.has(id);
+  answerCard(card, ok, wasRelearn);
+  queue.shift();
+  if (ok) { relearn.delete(id); sess.ok++; }
+  else {
+    sess.no++;
+    relearn.add(id);
+    // Rest nach Priorität sortieren, Fehler kommt nach 3 Karten wieder
+    const t = now();
+    queue.sort((a, b) => score(byId.get(b), t) - score(byId.get(a), t));
+    queue.splice(Math.min(3, queue.length), 0, id);
+  }
+  nextCard();
+}
+
+ent.addEventListener("keydown", e => {
+  if (e.key === "Enter" && state === "ask") { e.preventDefault(); check(); }
+});
+document.addEventListener("keydown", e => {
+  if (state !== "revealed" || e.target === ent || $("menu").open) return;
+  if (e.key === "Enter") rate(suggest);
+  else if (e.key.toLowerCase() === "j") rate(true);
+  else if (e.key.toLowerCase() === "n") rate(false);
+});
+$("say").addEventListener("click", () => speak(portuguese()));
+$("saySlow").addEventListener("click", () => speak(portuguese(), true));
+$("deck").addEventListener("change", e => { settings.deck = e.target.value; store(SKEY, settings); startSession(); });
+
+// ---------- Einstellungen ----------
+const menu = $("menu");
+$("menuBtn").addEventListener("click", () => {
+  $("optReverse").checked = settings.reverse;
+  $("optNoType").checked = settings.noType;
+  $("optAuto").checked = settings.auto;
+  const learned = Object.keys(progress).length;
+  $("info").textContent = `${cards.length} Karten` +
+    (exportedAt ? `, Stand vom Laptop: ${new Date(exportedAt * 1000).toLocaleString("de-DE")}` : "") +
+    `. Auf diesem Gerät gelernt: ${learned} Karten.`;
+  menu.showModal();
+});
+for (const [id, key] of [["optReverse", "reverse"], ["optNoType", "noType"], ["optAuto", "auto"]])
+  $(id).addEventListener("change", e => { settings[key] = e.target.checked; store(SKEY, settings); });
+$("closeMenu").addEventListener("click", () => { menu.close(); startSession(); });
+$("randomBtn").addEventListener("click", () => { menu.close(); startSession(true); });
+
+$("saveProg").addEventListener("click", async () => {
+  const name = `vokabel-fortschritt-${new Date().toISOString().slice(0, 10)}.json`;
+  const file = new File([JSON.stringify(progress)], name, { type: "application/json" });
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try { await navigator.share({ files: [file] }); } catch {}
+    return;
+  }
+  const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(file), download: name });
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+});
+$("loadProg").addEventListener("click", () => $("progFile").click());
+$("progFile").addEventListener("change", async e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  try {
+    progress = JSON.parse(await f.text());
+    store(PKEY, progress);
+    applyProgress();
+    alert("Fortschritt geladen.");
+  } catch { alert("Die Datei konnte nicht gelesen werden."); }
+  e.target.value = "";
+});
+$("resetProg").addEventListener("click", () => {
+  if (!confirm("Lernstand auf diesem Gerät löschen und mit dem Stand vom Laptop neu beginnen?")) return;
+  progress = {};
+  store(PKEY, progress);
+  applyProgress();
+});
+
+// ---------- Start ----------
+let raw = [];
+function applyProgress() {
+  cards = raw.map(c => Object.assign({}, c, progress[c.id] || {}));
+  byId = new Map(cards.map(c => [c.id, c]));
+}
+
+async function init() {
+  try {
+    const res = await fetch("karten.json", { cache: "no-cache" });
+    const data = await res.json();
+    raw = data.cards;
+    exportedAt = data.exported;
+  } catch {
+    word.textContent = "Karten konnten nicht geladen werden.";
+    ent.hidden = true;
+    return;
+  }
+  applyProgress();
+  refreshDecks();
+  startSession();
+}
+
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+init();
+</script>
+</body>
+</html>
