@@ -380,7 +380,8 @@ $("resetProg").addEventListener("click", () => {
 // ---------- Start ----------
 let raw = [];
 function applyProgress() {
-  cards = raw.map(c => Object.assign({}, c, progress[c.id] || {}));
+  const fresh = { due: 0, box: 0, lapses: 0, reps: 0, streak: 0 };
+  cards = raw.map(c => Object.assign({}, fresh, c, progress[c.id] || {}));
   byId = new Map(cards.map(c => [c.id, c]));
 }
 
