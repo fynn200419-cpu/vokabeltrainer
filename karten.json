@@ -1,10 +1,10 @@
 {
- "exported": 1791982408.9322734,
+ "exported": 1791982753.115799,
  "cards": [
   {
    "id": 85,
    "front": "Hallo",
-   "back": "Ola",
+   "back": "Olá",
    "deck": "Standard",
    "due": 0.0,
    "box": 0,
@@ -15,7 +15,7 @@
   {
    "id": 84,
    "front": "sie wissen",
-   "back": "eles/elas/voces sabem",
+   "back": "eles/elas/vocês sabem",
    "deck": "Standard",
    "due": 0.0,
    "box": 0,
@@ -26,7 +26,7 @@
   {
    "id": 83,
    "front": "ihr wisst",
-   "back": "vos sabeis",
+   "back": "vós sabeis",
    "deck": "Standard",
    "due": 0.0,
    "box": 0,
@@ -37,7 +37,7 @@
   {
    "id": 82,
    "front": "wir wissen",
-   "back": "nos sabemos",
+   "back": "nós sabemos",
    "deck": "Standard",
    "due": 1791377399.471362,
    "box": 1,
@@ -48,7 +48,7 @@
   {
    "id": 81,
    "front": "er/sie/es weiss",
-   "back": "ele/ela/voce sabe",
+   "back": "ele/ela/você sabe",
    "deck": "Standard",
    "due": 0.0,
    "box": 0,
@@ -70,7 +70,7 @@
   {
    "id": 79,
    "front": "Sie können",
-   "back": "Eles/Elas/Voces podes",
+   "back": "Eles/Elas/Vocês podem",
    "deck": "Standard",
    "due": 1791377299.0709236,
    "box": 1,
@@ -81,7 +81,7 @@
   {
    "id": 78,
    "front": "Ihr könnt",
-   "back": "Voce podes",
+   "back": "Você podes",
    "deck": "Standard",
    "due": 1791377406.7381818,
    "box": 0,
@@ -92,7 +92,7 @@
   {
    "id": 77,
    "front": "Wir können",
-   "back": "Nos podemos",
+   "back": "Nós podemos",
    "deck": "Standard",
    "due": 1791377395.0803666,
    "box": 1,
@@ -103,7 +103,7 @@
   {
    "id": 76,
    "front": "Er/Sie/Es kann",
-   "back": "Ele/Ela/Voce pode",
+   "back": "Ele/Ela/Você pode",
    "deck": "Standard",
    "due": 1791377385.091164,
    "box": 1,
@@ -125,7 +125,7 @@
   {
    "id": 74,
    "front": "sie haben",
-   "back": "eles/elas/voces tém",
+   "back": "eles/elas/vocês têm",
    "deck": "Standard",
    "due": 0.0,
    "box": 0,
@@ -136,7 +136,7 @@
   {
    "id": 73,
    "front": "ihr habt",
-   "back": "voce tem",
+   "back": "você tem",
    "deck": "Standard",
    "due": 0.0,
    "box": 0,
@@ -147,7 +147,7 @@
   {
    "id": 72,
    "front": "wir haben",
-   "back": "nos temos",
+   "back": "nós temos",
    "deck": "Standard",
    "due": 1791377315.7050958,
    "box": 1,
@@ -158,7 +158,7 @@
   {
    "id": 71,
    "front": "er/sie/es hat",
-   "back": "ele/ela/voce tem",
+   "back": "ele/ela/você tem",
    "deck": "Standard",
    "due": 0.0,
    "box": 0,
@@ -191,7 +191,7 @@
   {
    "id": 68,
    "front": "Kann es um 8pm sein?",
-   "back": "Pode ser ás 8 da noite?",
+   "back": "Pode ser às 8 da noite?",
    "deck": "Standard",
    "due": 0.0,
    "box": 0,
@@ -224,7 +224,7 @@
   {
    "id": 65,
    "front": "Sollen wir morgen party machen?",
-   "back": "Vamos sair amanhá?",
+   "back": "Vamos sair amanhã?",
    "deck": "Standard",
    "due": 1791379129.9789197,
    "box": 0,
@@ -246,7 +246,7 @@
   {
    "id": 63,
    "front": "Haben sie es eine Nummer grösser?",
-   "back": "Tem tamanho major?",
+   "back": "Tem tamanho maior?",
    "deck": "Standard",
    "due": 1791379006.6932783,
    "box": 0,
@@ -279,7 +279,7 @@
   {
    "id": 60,
    "front": "Kann ich mit Karte bezahlen?",
-   "back": "Posso pagar com cartáo?",
+   "back": "Posso pagar com cartão?",
    "deck": "Standard",
    "due": 1791376673.070805,
    "box": 1,
@@ -356,7 +356,7 @@
   {
    "id": 53,
    "front": "Um wie viel Uhr fährt der Zug?",
-   "back": "A que horaas parte o comboio?",
+   "back": "A que horas parte o comboio?",
    "deck": "Standard",
    "due": 1791379087.5503232,
    "box": 0,
@@ -422,7 +422,7 @@
   {
    "id": 47,
    "front": "Nach rechts oder nach links?",
-   "back": "Á direita ou á esquerda?",
+   "back": "À direita ou à esquerda?",
    "deck": "Standard",
    "due": 1791375896.8396497,
    "box": 0,
@@ -444,7 +444,7 @@
   {
    "id": 45,
    "front": "Es ist deliziös",
-   "back": "Está delicoso!",
+   "back": "Está delicioso!",
    "deck": "Standard",
    "due": 1791375860.8720994,
    "box": 0,
@@ -510,7 +510,7 @@
   {
    "id": 39,
    "front": "Ein brot bitte",
-   "back": "Um páo, por favor",
+   "back": "Um pão, por favor",
    "deck": "Standard",
    "due": 1791375421.8068268,
    "box": 1,
@@ -631,7 +631,7 @@
   {
    "id": 28,
    "front": "3",
-   "back": "trés",
+   "back": "três",
    "deck": "Standard",
    "due": 1791375317.6873956,
    "box": 1,
@@ -664,7 +664,7 @@
   {
    "id": 25,
    "front": "Ich spreche kein Portugiesisch",
-   "back": "Nao falo portugués",
+   "back": "Não falo português",
    "deck": "Standard",
    "due": 1791375335.7674906,
    "box": 1,
@@ -675,7 +675,7 @@
   {
    "id": 24,
    "front": "Sprichst du Englisch?",
-   "back": "Fala inglés?",
+   "back": "Fala inglês?",
    "deck": "Standard",
    "due": 1791375368.3985362,
    "box": 0,
@@ -697,7 +697,7 @@
   {
    "id": 22,
    "front": "Ich weiss es nicht.",
-   "back": "Nao percebo",
+   "back": "Não percebo",
    "deck": "Standard",
    "due": 1791375376.1105773,
    "box": 0,
@@ -730,7 +730,7 @@
   {
    "id": 19,
    "front": "Nein",
-   "back": "Nao",
+   "back": "Não",
    "deck": "Standard",
    "due": 1791375259.9430337,
    "box": 0,
@@ -796,7 +796,7 @@
   {
    "id": 13,
    "front": "Entschudliigen Sie mich",
-   "back": "Com licenca",
+   "back": "Com licença",
    "deck": "Standard",
    "due": 1791289498.8732262,
    "box": 0,
